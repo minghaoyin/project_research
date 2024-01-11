@@ -136,6 +136,10 @@ def main(q, prefix):
 
         
 
+        # 固定な視線データのみ
+        # if g[i][p['floating']] == 'floating':
+        #      g[i][p['v']] = False
+        
         # 繰り返しデータ無くす
         if g[i][p['v']] == True:
             if g[i][p['t']] in t:
