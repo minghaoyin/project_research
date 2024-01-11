@@ -9,7 +9,7 @@ from scipy import stats
 from PIL import Image
 import itertools
 
-from utils import *
+#from utils import *
 
 p = {
     'l_x': 0, 'l_y': 1, 'l_p': 2, 'r_x': 3, 'r_y': 4, 'r_p': 5, 'v': 6, 't': 7,
@@ -112,7 +112,8 @@ def main(q, prefix):
     quartile_1, quartile_3 = np.percentile(g_l_r_diff, [25, 75])
     iqr = quartile_3 - quartile_1
     g_l_r_diff_upper_bound = quartile_3 + (iqr * 1.5)
-
+    f_flag=True
+    count=0
     for i in range(1, len(g)):
         if g[i][p['t']] - g[i - 1][p['t']] > 0.075:
             # 空白に隣接するデータを削除
@@ -130,17 +131,28 @@ def main(q, prefix):
 
         # 異常な左右瞳孔差を削除
         if g[i][p['l_r_diff']] and g_l_r_diff_upper_bound < g[i][p['l_r_diff']]:
-            g[i][p['v']] = False0
+            g[i][p['v']] = False
 
-        # 固定な視線データのみ
-        if g[i][p['floating']] == 'floating':
-             g[i][p['v']] = False
+
+        
+
         # 繰り返しデータ無くす
         if g[i][p['v']] == True:
             if g[i][p['t']] in t:
                 g[i][p['v']] = False
             else:
                 t.append(g[i][p['t']])
+        
+        # 固定な視線データのみ
+        if g[i][p['v']] == True:
+            if g[i][p['floating']] == 'floating':
+                g[i][p['v']] = False
+                f_flag = True
+            else:
+                if f_flag == True:
+                    count+=1
+                    f_flag= False
+    print(f'{q}{prefix}: count {count}')
     # g = list(filter(lambda x: x[p['v']], g))x
     #
     # for row in g:
@@ -162,6 +174,7 @@ for q in range(1,6):
                 arr=[]
                 arr=main(q, key)
                 g.write(json.dumps(arr))
+                
                 print("saved")
             except:
                 raise
