@@ -9,7 +9,7 @@ from scipy import stats
 from PIL import Image
 import itertools
 
-from utils import *
+# from utils import *
 
 p = {
     'l_x': 0, 'l_y': 1, 'l_p': 2, 'r_x': 3, 'r_y': 4, 'r_p': 5, 'v': 6, 't': 7,
@@ -133,8 +133,9 @@ def main(q, prefix):
             g[i][p['v']] = False0
 
         # 固定な視線データのみ
-        if g[i][p['floating']] == 'floating':
-             g[i][p['v']] = False
+        # if g[i][p['floating']] == 'floating':
+        #      g[i][p['v']] = False
+        
         # 繰り返しデータ無くす
         if g[i][p['v']] == True:
             if g[i][p['t']] in t:
