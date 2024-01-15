@@ -21,7 +21,7 @@ for q in range(1,6):
     
     prevCoord = [0, 0]
     first = True
-    sum = 0
+    distance_sum = 0
     count = 0
     start_time = 0
     end_time = 0
@@ -34,7 +34,7 @@ for q in range(1,6):
           first = False
           start_time = d[7]
         else:
-          sum = sum + np.sqrt((d[0] - prevCoord[0])**2 + (d[1] - prevCoord[1])**2)
+          distance_sum += np.sqrt((d[0] - prevCoord[0])**2 + (d[1] - prevCoord[1])**2)
           end_time = d[7]
           true_count += 1
         
@@ -43,7 +43,7 @@ for q in range(1,6):
         if not(first):
           false_count += 1
     
-    result.append([q, o[key], sum, (end_time - start_time), true_count, false_count])
+    result.append([q, o[key], distance_sum, (end_time - start_time), true_count, false_count])
   result.append([])
 
 
